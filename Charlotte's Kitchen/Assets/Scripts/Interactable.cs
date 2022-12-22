@@ -23,7 +23,7 @@ public abstract class Interactable : MonoBehaviour
         ai = GameManager.Instance.charlotteAI;
     }
 
-    public abstract void PerformInteraction(E_ItemType itemTypeInHand);
+    public abstract void PerformInteraction(ItemType itemTypeInHand);
 
     /*
     public interface IInteractable

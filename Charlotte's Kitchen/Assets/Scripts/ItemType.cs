@@ -19,44 +19,12 @@ public enum E_ItemType
     EGG,
     CLOTHES,
     BASKET,
-    PILE_OF_CLOTHES
+    PILE_OF_CLOTHES,
+    DRYING_CLOTHES
 
 }
 
 public class ItemType : MonoBehaviour
 {
     public E_ItemType itemType;
-
-    public List<ItemType> hideableItems;
-
-    private void OnEnable()
-    {
-        EventManager.Instance.onItemShowen += ShowItem;
-        EventManager.Instance.onItemHidden += HideItem;
-    }
-
-    private void OnDisable()
-    {
-        EventManager.Instance.onItemShowen -= ShowItem;
-        EventManager.Instance.onItemHidden -= HideItem;
-    }
-
-    void ShowItem(E_ItemType itemType)
-    {
-        foreach(ItemType item in hideableItems)
-        {
-            if (item.itemType == itemType)
-                item.gameObject.SetActive(true);
-        }
-    }
-
-    void HideItem(E_ItemType itemType)
-    {
-        foreach (ItemType item in hideableItems)
-        {
-            if (item.itemType == itemType)
-                item.gameObject.SetActive(false);
-        }
-    }
-
 }

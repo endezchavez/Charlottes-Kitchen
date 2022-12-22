@@ -4,55 +4,51 @@ using UnityEngine;
 
 public class Hideable : MonoBehaviour
 {
-    [SerializeField] GameObject[] itemsToHide;
+    public ItemType[] itemsToHide;
 
-    [HideInInspector] public bool isItemsActive;
-
-    public void ShowHideableItems()
+    public void ShowItem(E_ItemType itemType)
     {
-        foreach(GameObject item in itemsToHide)
+        foreach(ItemType item in itemsToHide)
         {
-            item.SetActive(true);
-        }
-        isItemsActive = true;
-    }
-
-    public void HideHideableItems()
-    {
-        foreach (GameObject item in itemsToHide)
-        {
-            item.SetActive(false);
-        }
-        isItemsActive = false;
-
-    }
-
-    public void ShowSelectedHideables(Hideable hideable)
-    {
-        foreach(GameObject item in itemsToHide)
-        {
-            foreach(GameObject otherItem in hideable.itemsToHide)
+            if(item.itemType == itemType)
             {
-                if(item.tag == otherItem.tag)
+                item.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public void HideAllItems()
+    {
+        foreach(ItemType item in itemsToHide)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
+
+    public void CopyHideableData(Hideable hideable)
+    {
+        foreach (ItemType otherItem in hideable.itemsToHide)
+        {
+            foreach (ItemType item in itemsToHide)
+            {
+                if (otherItem.itemType == item.itemType)
                 {
-                    if (otherItem.activeInHierarchy)
-                    {
-                        item.SetActive(true);
-                    }
+                    item.gameObject.SetActive(otherItem.isActiveAndEnabled);
                 }
             }
         }
     }
 
-    public void ShowHideableItems(string tag)
+    public bool IsItemEnabled(E_ItemType itemType)
     {
-        foreach (GameObject item in itemsToHide)
+        foreach(ItemType item in itemsToHide)
         {
-            if(item.tag == tag)
+            if(item.itemType == itemType)
             {
-                item.SetActive(true);
+                return item.isActiveAndEnabled;
             }
         }
+        return false;
     }
 
 }

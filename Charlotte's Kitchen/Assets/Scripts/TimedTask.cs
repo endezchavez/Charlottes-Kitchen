@@ -29,31 +29,56 @@ public class TimedTask : Interactable
         currentRequiredItemTypes = GetCurrentInstruction().requiredItemTypes;
     }
 
-    public override void PerformInteraction(E_ItemType itemTypeInHand)
+    public override void PerformInteraction(ItemType itemTypeInHand)
     {
-        if(currentRequiredItemTypes.Contains(itemTypeInHand))
+        Hideable hideableInHand = itemTypeInHand.GetComponent<Hideable>();
+        Hideable hideableInAppliance = GetComponent<Hideable>();
+
+        if (!currentRequiredItemTypes.Contains(itemTypeInHand.itemType))
+            return;
+
+        if(GetCurrentInstruction().requiredHideableItems != E_ItemType.NONE)
         {
-            timer.SetTimerLength(GetCurrentInstruction().instructionTime);
-            timer.StartTimer();
+            if (!hideableInHand)
+                return;
 
-            if (GetCurrentInstruction().consumesItem)
+            if (!hideableInHand.IsItemEnabled(GetCurrentInstruction().requiredHideableItems))
+                return;
+
+        }
+
+        timer.SetTimerLength(GetCurrentInstruction().instructionTime);
+        timer.StartTimer();
+
+        if (GetCurrentInstruction().consumesItem)
+        {
+            EventManager.Instance.ItemConsumed(itemTypeInHand.itemType);
+            ai.DestroyItemsInHand();
+        }
+
+        if(GetCurrentInstruction().itemToShowInHand != E_ItemType.NONE)
+        {
+            if (hideableInHand)
             {
-                EventManager.Instance.ItemConsumed(itemTypeInHand);
-                ai.DestroyItemsInHand();
+                hideableInHand.ShowItem(GetCurrentInstruction().itemToShowInHand);
             }
+        }
 
-            if(GetCurrentInstruction().itemToShow != E_ItemType.NONE)
+        /*
+        if (GetCurrentInstruction().itemToShowInAppliance != E_ItemType.NONE)
+        {
+            if (hideableInAppliance)
             {
-                Debug.Log("Show Item");
-                EventManager.Instance.ItemShowen(GetCurrentInstruction().itemToShow);
+                hideableInAppliance.ShowItem(GetCurrentInstruction().itemToShowInAppliance);
             }
+        }
+        */
 
-            MoveToNextInstruction();
+        MoveToNextInstruction();
 
-            currentRequiredItemTypes = GetCurrentInstruction().requiredItemTypes;
+        currentRequiredItemTypes = GetCurrentInstruction().requiredItemTypes;
 
             
-        }
     }
 
     Instruction GetCurrentInstruction()

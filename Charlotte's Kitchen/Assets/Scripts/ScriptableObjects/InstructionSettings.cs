@@ -13,7 +13,9 @@ public class InstructionSettings : ScriptableObject
 public class Instruction
 {
     public List<E_ItemType> requiredItemTypes;
+    public E_ItemType requiredHideableItems;
     public float instructionTime;
     public bool consumesItem;
-    public E_ItemType itemToShow;
+    public E_ItemType itemToShowInHand;
+    public E_ItemType itemToShowInAppliance;
 }

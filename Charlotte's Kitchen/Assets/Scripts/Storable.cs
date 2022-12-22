@@ -9,7 +9,7 @@ public class Storable : Interactable
     [SerializeField] Transform storageUI;
     [SerializeField] Pickupable[] pickupables;
 
-    public override void PerformInteraction(E_ItemType itemTypeInHand)
+    public override void PerformInteraction(ItemType itemTypeInHand)
     {
         ShowUI();
     }

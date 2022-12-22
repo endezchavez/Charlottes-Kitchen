@@ -16,6 +16,8 @@ public class Pickupable : Interactable
     [HideInInspector] public GameObject rightHandPrefab;
 
     [SerializeField] E_ItemType itemType;
+
+    [SerializeField] List<ItemType> hideableItems;
     [SerializeField] Vector3 heldPosition;
     [SerializeField] Vector3 heldRotation;
 
@@ -26,7 +28,6 @@ public class Pickupable : Interactable
 
     private bool canBeUsed = true;
 
-    TagChanger tagChanger;
 
     protected override void Awake()
     {
@@ -38,8 +39,7 @@ public class Pickupable : Interactable
         }
 
         outline = GetComponent<Outline>();
-        hidebale = GetComponent<Hideable>();
-        tagChanger = GetComponent<TagChanger>();
+        hidebale = GetComponentInChildren<Hideable>();
     }
 
     protected override void Start()
@@ -84,72 +84,49 @@ public class Pickupable : Interactable
         }
 
         GameObject newItem = Instantiate(itemPrefab, handParent);
-        PickupableReferencer pickupRef = newItem.AddComponent<PickupableReferencer>();
 
-        pickupRef.pickupable = this;
+        Hideable newHideable = newItem.GetComponent<Hideable>();
+        if (newHideable)
+            newHideable.CopyHideableData(hidebale);
+        
+        if(hidebale)
+            hidebale.HideAllItems();
 
-        Hideable newItemHideable = newItem.GetComponent<Hideable>();
 
-        if (hidebale && newItemHideable)
-        {
-            //if (hidebale.isItemsActive)
-            //{
-                newItemHideable.ShowSelectedHideables(hidebale);
-                hidebale.HideHideableItems();
-            //}
-        }
-
-        //newItem.tag = gameObject.tag;
         newItem.transform.localPosition = heldPosition;
-        //newItem.transform.rotation = Quaternion.LookRotation(handParent.right, itemPrefab.transform.forward);
         newItem.transform.localRotation = Quaternion.Euler(heldRotation);
 
         if (outline != null)
         {
             outline.HideModelMesh();
         }
-
-        /*
-        item.parent = handParent;
-        item.localPosition = Vector3.zero;
-
-        item.rotation = Quaternion.LookRotation(handParent.right, item.forward);
-        */
-
     }
 
     public void ResetItems()
     {
-        if (ai.HasObjectInLeftHand() && originalLeftHandModel != null && ai.GetObjectInLeftHand().tag == originalLeftHandModel.tag)
+        if(ai.GetItemTypesInHand().itemType == itemType)
         {
-            GameObject itemInLeftHand = ai.GetObjectInLeftHand();
-            Hideable hideable = itemInLeftHand.GetComponent<Hideable>();
-            if (hideable && hideable.isItemsActive)
+            if(ai.GetHideableInHand())
+                hidebale.CopyHideableData(ai.GetHideableInHand());
+            
+            if (ai.HasObjectInRightHand())
             {
-                GetComponent<Hideable>().ShowHideableItems();
+                Destroy(ai.GetObjectInRightHand());
             }
-            GameObject.Destroy(ai.GetObjectInLeftHand());
+            if (ai.HasObjectInLeftHand())
+            {
+                Destroy(ai.GetObjectInLeftHand());
+            }
         }
 
-        if (ai.HasObjectInRightHand() && originalRightHandModel != null && ai.GetObjectInRightHand().tag == originalRightHandModel.tag)
-        {
-            GameObject itemInRightHand = ai.GetObjectInRightHand();
-            Hideable hideable = itemInRightHand.GetComponent<Hideable>();
-            if (hideable && hideable.isItemsActive)
-            {
-                GetComponent<Hideable>().ShowHideableItems();
-            }
-            GameObject.Destroy(ai.GetObjectInRightHand());
-        }
-
-        if(outline != null)
+        if (outline != null)
         {
             outline.ShowModelMesh();
         }
 
     }
 
-    public override void PerformInteraction(E_ItemType itemTypeInHand)
+    public override void PerformInteraction(ItemType itemTypeInHand)
     {
         if (this.enabled)
         {
@@ -174,6 +151,8 @@ public class Pickupable : Interactable
         }
         
     }
+
+    
 
     public void ShowOriginalModelMesh()
     {

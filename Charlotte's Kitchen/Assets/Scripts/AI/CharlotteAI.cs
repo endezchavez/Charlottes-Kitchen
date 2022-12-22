@@ -118,19 +118,36 @@ public class CharlotteAI : MonoBehaviour
         transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
     }
 
-    E_ItemType GetItemTypesInHand()
+    public ItemType GetItemTypesInHand()
     {
         if (HasObjectInRightHand())
         {
-            return GetObjectInRightHand().GetComponent<ItemType>().itemType;
+            return GetObjectInRightHand().GetComponent<ItemType>();
         }else if (HasObjectInLeftHand())
         {
-            return GetObjectInLeftHand().GetComponent<ItemType>().itemType;
+            return GetObjectInLeftHand().GetComponent<ItemType>();
         }
         else
         {
-            return E_ItemType.NONE;
+            return null;
         }
+
+    }
+
+    public Hideable GetHideableInHand()
+    {
+        if (HasObjectInRightHand())
+        {
+            if(GetObjectInRightHand().GetComponent<Hideable>())
+                return GetObjectInRightHand().GetComponent<Hideable>();
+        }
+        else if (HasObjectInLeftHand())
+        {
+            if (GetObjectInLeftHand().GetComponent<Hideable>())
+                return GetObjectInLeftHand().GetComponent<Hideable>();
+        }
+    
+        return null;
 
     }
 

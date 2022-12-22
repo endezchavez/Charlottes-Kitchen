@@ -1,0 +1,90 @@
+{
+    "name": "InputMaster",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "93c3cc2e-6217-4de5-95b2-e1854e909e55",
+            "actions": [
+                {
+                    "name": "MousePos",
+                    "type": "Value",
+                    "id": "236abbe9-e2b3-43b6-94fe-baea86fe1f21",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MouseClick",
+                    "type": "Button",
+                    "id": "b01a28a9-11e6-491c-926c-92f5400b7f26",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "MouseScroll",
+                    "type": "PassThrough",
+                    "id": "cab37152-305d-457c-8db7-7c18fb98d1b2",
+                    "expectedControlType": "",
+                    "processors": "Normalize(min=-1,max=1)",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "MouseWheelClick",
+                    "type": "Button",
+                    "id": "b22f5590-9cc4-403d-93a7-243dd133fa04",
+                    "expectedControlType": "Button",
+                    "processors": "Normalize(min=-1,max=1)",
+                    "interactions": "Press"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "73e24c0b-16e4-4905-a05f-54435a35ae20",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "63b1d284-d34e-4ac4-afcb-d838d05c474c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb94f411-40c8-4fb5-868d-fceecc1ca2e2",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b40d172b-7298-48fa-99f7-e147cf376b27",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseWheelClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

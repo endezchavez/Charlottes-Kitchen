@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d989f5e68aaef0428135aaa1a45a2b0, type: 3}
-  m_Name: WashingMachineInstructions
+  m_Name: ToasterInstructions
   m_EditorClassIdentifier: 
   instructions:
-  - requiredItemType: 13
+  - requiredItemType: 6
     requiredHideableItems: 0
-    instructionTime: 10
+    instructionTime: 1
     consumesItem: 1
     itemToShowInHand: 0
     itemToHideInHand: 0
     itemToShowInAppliance: 0
     itemToHideInAppliance: 0
-    itemToShowOnCompletion: 0
+    itemToShowOnCompletion: 7
     itemToHideOnCompletion: 0
     itemToResetOnCompletion: 0
     itemToGivePlayer: {fileID: 0}
-  - requiredItemType: 14
+  - requiredItemType: 0
     requiredHideableItems: 0
     instructionTime: 0
     consumesItem: 0
-    itemToShowInHand: 15
+    itemToShowInHand: 0
     itemToHideInHand: 0
     itemToShowInAppliance: 0
-    itemToHideInAppliance: 0
-    itemToShowOnCompletion: 0
+    itemToHideInAppliance: 7
+    itemToShowOnCompletion: 7
     itemToHideOnCompletion: 0
     itemToResetOnCompletion: 0
-    itemToGivePlayer: {fileID: 0}
+    itemToGivePlayer: {fileID: 8609475304806622283, guid: 67cd8607de7041c4383630b5142a2388, type: 3}

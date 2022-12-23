@@ -50,11 +50,14 @@ public class Pickupable : Interactable
     private void OnEnable()
     {
         EventManager.Instance.onItemConsumed += DisablePickubale;
+        EventManager.Instance.onItemReset += ResetItem;
     }
 
     private void OnDisable()
     {
         EventManager.Instance.onItemConsumed -= DisablePickubale;
+        EventManager.Instance.onItemReset -= ResetItem;
+
     }
 
     public void SetCanBeUsed(bool i)
@@ -102,7 +105,7 @@ public class Pickupable : Interactable
         }
     }
 
-    public void ResetItems()
+    public void PutDownItem()
     {
         if(ai.GetItemTypesInHand().itemType == itemType)
         {
@@ -117,13 +120,24 @@ public class Pickupable : Interactable
             {
                 Destroy(ai.GetObjectInLeftHand());
             }
-        }
 
-        if (outline != null)
+            if (outline != null)
+            {
+                outline.ShowModelMesh();
+            }
+        }
+    }
+
+    void ResetItem(E_ItemType itemType)
+    {
+        if(this.itemType == itemType)
         {
-            outline.ShowModelMesh();
-        }
+            if (hidebale)
+                hidebale.HideAllItems();
 
+            if (outline)
+                outline.ShowModelMesh();
+        }
     }
 
     public override void PerformInteraction(ItemType itemTypeInHand)
@@ -146,7 +160,7 @@ public class Pickupable : Interactable
             //Drop Off Item
             else
             {
-                ResetItems();
+                PutDownItem();
             }
         }
         

@@ -10,9 +10,12 @@ public class TimedTask : Interactable
 
     Timer timer;
 
-    List<E_ItemType> currentRequiredItemTypes;
+    E_ItemType currentRequiredItemType;
 
     int currentInstructionIndex = 0;
+
+    Hideable hideable;
+    Hideable hideableInHand;
 
 
     protected override void Awake()
@@ -26,29 +29,69 @@ public class TimedTask : Interactable
 
         timer = GetComponent<Timer>();
 
-        currentRequiredItemTypes = GetCurrentInstruction().requiredItemTypes;
+        currentRequiredItemType = GetCurrentInstruction().requiredItemType;
+
+        hideable = GetComponent<Hideable>();
+
+    }
+
+    private void Update()
+    {
+        if (timer.isTimerFinished)
+        {
+            if(GetCurrentInstruction().itemToHideOnCompletion != E_ItemType.NONE)
+            {
+                hideable.HideItem(GetCurrentInstruction().itemToHideOnCompletion);
+            }
+
+            if (GetCurrentInstruction().itemToShowOnCompletion != E_ItemType.NONE)
+            {
+                hideable.ShowItem(GetCurrentInstruction().itemToShowOnCompletion);
+            }
+
+            if (GetCurrentInstruction().itemToResetOnCompletion != E_ItemType.NONE)
+            {
+                EventManager.Instance.ItemReset(GetCurrentInstruction().itemToResetOnCompletion);
+            }
+
+            timer.ResetTimer();
+        }
     }
 
     public override void PerformInteraction(ItemType itemTypeInHand)
     {
-        Hideable hideableInHand = itemTypeInHand.GetComponent<Hideable>();
-        Hideable hideableInAppliance = GetComponent<Hideable>();
 
-        if (!currentRequiredItemTypes.Contains(itemTypeInHand.itemType))
+        if (itemTypeInHand == null && GetCurrentInstruction().requiredItemType != E_ItemType.NONE)
             return;
 
-        if(GetCurrentInstruction().requiredHideableItems != E_ItemType.NONE)
+        if (itemTypeInHand != null && itemTypeInHand.itemType != GetCurrentInstruction().requiredItemType)
+            return;
+
+        if(itemTypeInHand != null)
         {
-            if (!hideableInHand)
-                return;
-
-            if (!hideableInHand.IsItemEnabled(GetCurrentInstruction().requiredHideableItems))
-                return;
-
+            hideableInHand = itemTypeInHand.GetComponent<Hideable>();
         }
+
+        if (hideableInHand && !hideableInHand.IsItemEnabled(GetCurrentInstruction().requiredHideableItems))
+            return;
+
 
         timer.SetTimerLength(GetCurrentInstruction().instructionTime);
         timer.StartTimer();
+
+        
+        if (GetCurrentInstruction().itemToGivePlayer != null)
+        {
+            GivePlayerItem(GetCurrentInstruction().itemToGivePlayer);
+        }
+
+        if (GetCurrentInstruction().itemToShowInAppliance != E_ItemType.NONE)
+        {
+            if (hideable)
+            {
+                hideable.ShowItem(GetCurrentInstruction().itemToShowInAppliance);
+            }
+        }
 
         if (GetCurrentInstruction().consumesItem)
         {
@@ -56,29 +99,45 @@ public class TimedTask : Interactable
             ai.DestroyItemsInHand();
         }
 
-        if(GetCurrentInstruction().itemToShowInHand != E_ItemType.NONE)
-        {
-            if (hideableInHand)
-            {
-                hideableInHand.ShowItem(GetCurrentInstruction().itemToShowInHand);
-            }
-        }
-
         /*
-        if (GetCurrentInstruction().itemToShowInAppliance != E_ItemType.NONE)
+        if (GetCurrentInstruction().requiredHideableItems != E_ItemType.NONE)
         {
-            if (hideableInAppliance)
-            {
-                hideableInAppliance.ShowItem(GetCurrentInstruction().itemToShowInAppliance);
-            }
+            if (!hideableInHand)
+                return;
+
+            Debug.Log(hideableInHand.IsItemEnabled(GetCurrentInstruction().requiredHideableItems));
+            if (!hideableInHand.IsItemEnabled(GetCurrentInstruction().requiredHideableItems))
+                return;
+
         }
         */
 
+        if (hideableInHand)
+        {
+            if (GetCurrentInstruction().itemToShowInHand != E_ItemType.NONE)
+            {
+                if (hideableInHand)
+                {
+                    hideableInHand.ShowItem(GetCurrentInstruction().itemToShowInHand);
+                }
+
+            }
+
+            if (GetCurrentInstruction().itemToHideInHand != E_ItemType.NONE)
+            {
+                if (hideableInHand)
+                {
+                    hideableInHand.HideItem(GetCurrentInstruction().itemToHideInHand);
+                }
+            }
+        }
+        
+        
+
         MoveToNextInstruction();
 
-        currentRequiredItemTypes = GetCurrentInstruction().requiredItemTypes;
+        currentRequiredItemType = GetCurrentInstruction().requiredItemType;
 
-            
     }
 
     Instruction GetCurrentInstruction()

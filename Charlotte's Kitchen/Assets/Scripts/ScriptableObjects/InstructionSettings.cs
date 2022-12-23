@@ -12,10 +12,16 @@ public class InstructionSettings : ScriptableObject
 [System.Serializable]
 public class Instruction
 {
-    public List<E_ItemType> requiredItemTypes;
+    public E_ItemType requiredItemType;
     public E_ItemType requiredHideableItems;
     public float instructionTime;
     public bool consumesItem;
     public E_ItemType itemToShowInHand;
+    public E_ItemType itemToHideInHand;
     public E_ItemType itemToShowInAppliance;
+    public E_ItemType itemToHideInAppliance;
+    public E_ItemType itemToShowOnCompletion;
+    public E_ItemType itemToHideOnCompletion;
+    public E_ItemType itemToResetOnCompletion;
+    public StorableItem itemToGivePlayer;
 }

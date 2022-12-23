@@ -5,28 +5,36 @@ using UnityEngine;
 
 public class Storable : Interactable
 {
-    [SerializeField] Transform[] storedItems;
+    [SerializeField] StorableItem[] storedItems;
     [SerializeField] Transform storageUI;
-    [SerializeField] Pickupable[] pickupables;
 
     public override void PerformInteraction(ItemType itemTypeInHand)
     {
         ShowUI();
+
     }
 
     // Start is called before the first frame update
     protected override void Start()
     {
-    
+        base.Start();
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
     }
 
     void ShowUI()
     {
-        if (!storageUI.gameObject.activeInHierarchy)
+        if (!ai.IsCarryingObject())
         {
-            storageUI.gameObject.SetActive(true);
+            if (!storageUI.gameObject.activeInHierarchy)
+            {
+                storageUI.gameObject.SetActive(true);
+            }
         }
+        
     }
-
-
+    
 }

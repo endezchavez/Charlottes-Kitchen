@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d989f5e68aaef0428135aaa1a45a2b0, type: 3}
-  m_Name: ClothesHorseInstructions
+  m_Name: PlantInstructions
   m_EditorClassIdentifier: 
   instructions:
-  - requiredItemType: 14
-    requiredHideableItems: 15
+  - requiredItemType: 11
+    requiredHideableItems: 0
     instructionTime: 1
     consumesItem: 0
     itemToShowInHand: 0
-    itemToHideInHand: 15
-    itemToShowInAppliance: 16
+    itemToHideInHand: 0
+    itemToShowInAppliance: 0
     itemToHideInAppliance: 0
     itemToShowOnCompletion: 0
-    itemToHideOnCompletion: 16
-    itemToResetOnCompletion: 15
+    itemToHideOnCompletion: 0
+    itemToResetOnCompletion: 0
     itemToGivePlayer: {fileID: 0}

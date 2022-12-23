@@ -100,4 +100,13 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action<E_ItemType> onItemReset;
+    public void ItemReset(E_ItemType itemType)
+    {
+        if (onItemReset != null)
+        {
+            onItemReset(itemType);
+        }
+    }
+
 }

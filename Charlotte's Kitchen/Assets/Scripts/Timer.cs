@@ -100,7 +100,11 @@ public class Timer : MonoBehaviour
         isTimerFinished = false;
         isTimerRunning = true;
         timeRemaining = timerLength;
-     
+    }
+
+    public void ResetTimer()
+    {
+        isTimerFinished = false;
     }
 
     string TimeToString(float t)

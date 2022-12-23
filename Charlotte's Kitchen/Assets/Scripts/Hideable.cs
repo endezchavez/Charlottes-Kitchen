@@ -17,6 +17,17 @@ public class Hideable : MonoBehaviour
         }
     }
 
+    public void HideItem(E_ItemType itemType)
+    {
+        foreach (ItemType item in itemsToHide)
+        {
+            if (item.itemType == itemType)
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+    }
+
     public void HideAllItems()
     {
         foreach(ItemType item in itemsToHide)

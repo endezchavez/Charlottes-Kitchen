@@ -15,11 +15,16 @@ public class Pickupable : Interactable
     [HideInInspector] public GameObject leftHandPrefab;
     [HideInInspector] public GameObject rightHandPrefab;
 
+    [HideInInspector] public Vector3 leftHandHeldPosition;
+    [HideInInspector] public Vector3 leftHandHeldRotation;
+
+    [HideInInspector] public Vector3 rightHandHeldPosition;
+    [HideInInspector] public Vector3 rightHandHeldRotation;
+
     [SerializeField] E_ItemType itemType;
 
     [SerializeField] List<ItemType> hideableItems;
-    [SerializeField] Vector3 heldPosition;
-    [SerializeField] Vector3 heldRotation;
+    
 
     [SerializeField] GameObject itemsParent;
 
@@ -32,11 +37,6 @@ public class Pickupable : Interactable
     protected override void Awake()
     {
         base.Awake();
-
-        if(standPos == null)
-        {
-            Debug.Log(itemType);
-        }
 
         outline = GetComponent<Outline>();
         hidebale = GetComponentInChildren<Hideable>();
@@ -74,19 +74,27 @@ public class Pickupable : Interactable
     {
         Transform handParent;
         GameObject itemPrefab;
+        Vector3 heldPosition;
+        Vector3 heldRotation;
         
         if (hand == Hand.LEFT)
         {
             handParent = ai.leftHandPos;
             itemPrefab = leftHandPrefab;
+            heldPosition = leftHandHeldPosition;
+            heldRotation = leftHandHeldRotation;
         }
         else
         {
             handParent = ai.rightHandPos;
             itemPrefab = rightHandPrefab;
+            heldPosition = rightHandHeldPosition;
+            heldRotation = rightHandHeldRotation;
         }
 
         GameObject newItem = Instantiate(itemPrefab, handParent);
+
+        AddItemTypeScript(newItem);
 
         Hideable newHideable = newItem.GetComponent<Hideable>();
         if (newHideable)
@@ -94,7 +102,6 @@ public class Pickupable : Interactable
         
         if(hidebale)
             hidebale.HideAllItems();
-
 
         newItem.transform.localPosition = heldPosition;
         newItem.transform.localRotation = Quaternion.Euler(heldRotation);
@@ -193,6 +200,12 @@ public class Pickupable : Interactable
     {
         if(this.itemType == itemType)
             this.enabled = true;
+    }
+
+    void AddItemTypeScript(GameObject pickupObj)
+    {
+        ItemType itemTypeScript = pickupObj.AddComponent<ItemType>();
+        itemTypeScript.itemType = itemType;
     }
 
 }

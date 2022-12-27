@@ -24,6 +24,9 @@ public class PickupableEditor : Editor
         {
             pickupable.originalLeftHandModel = EditorGUILayout.ObjectField("Original Left Hand Model", pickupable.originalLeftHandModel, typeof(Transform), true) as Transform;
             pickupable.leftHandPrefab = EditorGUILayout.ObjectField("Left Hand Prefab", pickupable.leftHandPrefab, typeof(GameObject), true) as GameObject;
+            pickupable.leftHandHeldPosition = EditorGUILayout.Vector3Field("Left Hand Held Position", pickupable.leftHandHeldPosition);
+            pickupable.leftHandHeldRotation = EditorGUILayout.Vector3Field("Left Hand Held Rotation", pickupable.leftHandHeldRotation);
+
         }
 
         EditorGUILayout.Space();
@@ -32,6 +35,9 @@ public class PickupableEditor : Editor
         {
             pickupable.originalRightHandModel = EditorGUILayout.ObjectField("Original Right Hand Model", pickupable.originalRightHandModel, typeof(Transform), true) as Transform;
             pickupable.rightHandPrefab = EditorGUILayout.ObjectField("Right Hand Prefab", pickupable.rightHandPrefab, typeof(GameObject), true) as GameObject;
+            pickupable.rightHandHeldPosition = EditorGUILayout.Vector3Field("Right Hand Held Position", pickupable.rightHandHeldPosition);
+            pickupable.rightHandHeldRotation = EditorGUILayout.Vector3Field("Right Hand Held Rotation", pickupable.rightHandHeldRotation);
+
 
         }
 
